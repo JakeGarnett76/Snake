@@ -1,0 +1,146 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <input id="btn" type="button"  value="Start" /><br>
+    <input id="btnR" type="button" onclick="rightClick()" value="Right" /><br>
+    <input id="btnL" type="button" onclick="leftClick()" value="Left" /><br>
+    <canvas id="canvasId" width="500" height="500" style="border:1px solid #000000;"></canvas>
+   
+    <script type="text/javascript">
+    
+    //1:north 2:east 3:south 4:west
+    var direction = 2;
+    var myBtn = document.getElementById("btn");
+    var myBtnL = document.getElementById("btnL");
+    var myBtnR = document.getElementById("btnR");
+
+    var fromX = parseInt(10);
+    var fromY = parseInt(10);
+
+    var toX = parseInt(10);
+    var toY = parseInt(10);
+
+    var flag = 1;
+
+    window.onload = myClick;
+    function myClick(){
+        myBtn.onclick = start;
+        if(flag == 1){
+            flag--;
+        }
+        if(flag == 0){
+            flag++
+        }
+    }
+    //1:north 2:east 3:south 4:west
+    function leftClick(){
+        if(direction == 1){
+            direction = 4
+            console.log("n w");
+        }
+        else if(direction == 2){
+            direction = 1;
+            console.log("e n");
+        }
+        else if(direction == 3){
+            direction = 2;
+            console.log("s w");
+        }
+        else if(direction == 4){
+            direction = 3;
+            console.log("w s");
+        }
+    }
+    //1:north 2:east 3:south 4:west
+    function rightClick(){
+        if(direction == 1){
+            direction = 2;
+            console.log("n e");
+        }
+        else if(direction == 2){
+            direction = 3;
+            console.log("e s");
+        }
+        else if(direction == 3){
+            direction = 4;
+            console.log("s w");
+        }
+        else if(direction == 4){
+            direction = 1;
+            console.log("w n");
+        }
+    }
+    var myInterval;
+    function start(button) {
+        if(myInterval){
+            clearInterval(myInterval);
+            myInterval = false;
+            myBtn.value = "Start";
+        }
+        else{
+            myInterval = setInterval(function(){
+            myBtn.value = "Stop";
+            console.log(direction);
+            //north
+            if(direction == 1){
+                toY = toY - 1;
+                console.log("north");
+            }
+            //east
+            if(direction == 2){
+                toX = toX + 1;
+                console.log("east");
+            }
+            //south
+            if(direction == 3){
+                toY = toY + 1;
+                console.log("south");
+            }
+            //west
+            if(direction == 4){
+                toX = toX - 1
+                console.log("west");
+            }
+
+            var context = document.getElementById("canvasId").getContext("2d");
+            context.moveTo(fromX, fromY);
+            context.lineTo(toX,toY);
+            context.stroke();
+
+            //north
+            if(direction == 1){
+                fromY -=1;
+            }
+            //east
+            if(direction == 2){
+                fromX +=1;
+            }
+            //south
+            if(direction == 3){
+                fromY +=1;
+            }
+            //west
+            if(direction == 4){
+                fromX -=1;
+            }
+
+        if(toX > 500 || toX < 0){
+            clearInterval(myInterval);
+            myInterval = false;
+            myBtn.value = "Start";
+        }
+        if(toY > 500 || toY < 0){
+            clearInterval(myInterval);
+            myInterval = false;
+            myBtn.value = "Start";
+        }
+
+        }, 25);
+    }
+}
+
+     //look at other canvas methods!
+    </script>
+  </body>
+</html>
